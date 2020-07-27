@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input class="form-control" type="text" id="randompin">
+                    <button class="generate-btn" id="generatePin">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input class="form-control" id="enterTxt" type="text">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div class="button" onclick="enterNumbers(this.innerText)">7</div>
+                              <div class="button" onclick="enterNumbers(this.innerText)">8</div>
+                              <div class="button" onclick="enterNumbers(this.innerText)">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="enterNumbers(this.innerText)">4</div>
+                              <div class="button" onclick="enterNumbers(this.innerText)">5</div>
+                              <div class="button" onclick="enterNumbers(this.innerText)">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="enterNumbers(this.innerText)">1</div>
+                              <div class="button" onclick="enterNumbers(this.innerText)">2</div>
+                              <div class="button" onclick="enterNumbers(this.innerText)">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" onclick="backspace()"><</div>
+                                <div class="button" onclick="enterNumbers(this.innerText)">0</div>
+                                <div class="button" onclick="document.getElementById('enterTxt').value = '' ">C</div>
+                            </div>
+                            <div>
+                                <button type="submit" class="submit-btn" id="mainBtn" onclick="check()">Submit</button>
+                                <p class="action-left"> <span id="noTry">3</span> try left</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p class="notify d-none" id="cross">❌ Pin Didn't Match, Please try again</p>
+            <p class="notify d-none" id="signed">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+
+    <script>
+
+
+        /*let randomNum = ''+ Math.floor(Math.random() * 9999);
+        if(randomNum.length === 3){
+            randomNum +=Math.floor(Math.random() * 9);
+        }*/
+
+        //it's also work :)
+
+        
+        let randomPin = document.getElementById('randompin');
+        
+        let randomNum = '';
+
+        for(let i = 0 ; i<4 ; i++){
+            randomNum +=Math.floor(Math.random() * 9);
+        }
+        let genratePin = document.getElementById('generatePin');
+        genratePin.addEventListener('click' , function(){
+            
+            randomPin.value = randomNum;
+        })
+
+        function enterNumbers(x){
+            document.getElementById('enterTxt').value += x ;
+        }
+
+        function backspace(){
+            let fullNumber = document.getElementById('enterTxt').value;
+            document.getElementById('enterTxt').value = fullNumber.slice(0 , fullNumber.length-1);
+        }
+
+        function check(){
+            let fullNumber = document.getElementById('enterTxt');
+            let randomPin = document.getElementById('randompin');
+            let count = 3;
+            if(fullNumber.value === randomPin.value){
+                document.getElementById('signed').classList.add("d-block");
+                
+            }
+            else{
+                document.getElementById('cross').classList.add("d-block");
+                count--;
+                document.getElementById('noTry').innerText = count;
+                if(count < 0){
+                    document.getElementById('mainBtn').setAttribute('disabled');
+                }
+                
+            }
+
+
+
+
+
+
+            
+        }
+
+        
+    </script>
+</body>
+
+
+</html>
